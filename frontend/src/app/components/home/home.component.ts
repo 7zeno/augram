@@ -3,8 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { PostService } from '../../services/post.service';
 import { Post } from '../../models/post.model';
 import { User } from '../../models/user.model';
-import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -28,15 +27,15 @@ export class HomeComponent implements OnInit {
   addComment(postId: string, text: string) {
     if (!text.trim()) return;
     
-    this.postService.addComment(postId, text).pipe(
-      tap(() => {
+    // FIX: Using explicit types in the subscribe callbacks
+    this.postService.addComment(postId, text).subscribe(
+      (response: any) => { // Success callback
         this.posts$ = this.postService.getPosts();
-      }),
-      catchError((err) => {
+      },
+      (err: any) => { // Error callback
         console.error('Failed to add comment', err);
-        return of(null);
-      })
-    ).subscribe();
+      }
+    );
   }
 
   logout(): void {

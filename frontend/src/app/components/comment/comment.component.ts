@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { PostService } from '../../services/post.service';
-import { of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Post } from '../../models/post.model';
 
 @Component({
   selector: 'app-comment',
@@ -19,15 +18,15 @@ export class CommentComponent {
   submitReply() {
     if (!this.replyText.trim()) return;
     
-    this.postService.addReply(this.postId, this.comment._id, this.replyText).pipe(
-      tap(() => {
+    // FIX: Using explicit types in the subscribe callbacks
+    this.postService.addReply(this.postId, this.comment._id, this.replyText).subscribe(
+      (updatedPost: Post) => { // Success callback
         window.location.reload();
-      }),
-      catchError((err) => {
+      },
+      (err: any) => { // Error callback
         console.error('Failed to add reply', err);
-        return of(null);
-      })
-    ).subscribe();
+      }
+    );
 
     this.replyText = '';
     this.showReplyForm = false;
