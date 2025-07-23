@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms'; // Import FormsModule
+import { ReactiveFormsModule, FormsModule } from '@angular/forms'; // FormsModule is required for ngModel
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,7 +10,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
-import { CommentComponent } from './components/comment/comment.component'; // Import new component
+import { CommentComponent } from './components/comment/comment.component'; // Import the new component
 
 import { AuthInterceptor } from './auth/auth.interceptor';
 
@@ -21,14 +21,14 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     RegisterComponent,
     HomeComponent,
     CreatePostComponent,
-    CommentComponent // Declare new component
+    CommentComponent // Declare the new component here
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule // Add FormsModule here
+    FormsModule // Import FormsModule here
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

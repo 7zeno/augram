@@ -28,16 +28,13 @@ export class HomeComponent implements OnInit {
   addComment(postId: string, text: string) {
     if (!text.trim()) return;
     
-    // FIX: Using a more robust .pipe() pattern for the subscription
     this.postService.addComment(postId, text).pipe(
       tap(() => {
-        // Success logic: refetch the posts to show the new comment
         this.posts$ = this.postService.getPosts();
       }),
       catchError((err) => {
-        // Error logic
         console.error('Failed to add comment', err);
-        return of(null); // Return a new observable to complete the stream
+        return of(null);
       })
     ).subscribe();
   }

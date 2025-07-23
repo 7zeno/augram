@@ -19,16 +19,13 @@ export class CommentComponent {
   submitReply() {
     if (!this.replyText.trim()) return;
     
-    // FIX: Using a more robust .pipe() pattern for the subscription
     this.postService.addReply(this.postId, this.comment._id, this.replyText).pipe(
       tap(() => {
-        // Success logic: reload the page to see the new reply
         window.location.reload();
       }),
       catchError((err) => {
-        // Error logic
         console.error('Failed to add reply', err);
-        return of(null); // Return a new observable to complete the stream
+        return of(null);
       })
     ).subscribe();
 
