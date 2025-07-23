@@ -3,7 +3,8 @@ import { AuthService } from '../../services/auth.service';
 import { PostService } from '../../services/post.service';
 import { Post } from '../../models/post.model';
 import { User } from '../../models/user.model';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -27,17 +28,18 @@ export class HomeComponent implements OnInit {
   addComment(postId: string, text: string) {
     if (!text.trim()) return;
     
-    // FIX: Using the older, multi-argument syntax for .subscribe()
-    this.postService.addComment(postId, text).subscribe(
-      () => { // Success callback
-        // For now, we reload to see the new comment.
-        // A better approach would be state management (e.g., NgRx, Akita).
+    // FIX: Using a more robust .pipe() pattern for the subscription
+    this.postService.addComment(postId, text).pipe(
+      tap(() => {
+        // Success logic: refetch the posts to show the new comment
         this.posts$ = this.postService.getPosts();
-      },
-      (err) => { // Error callback
+      }),
+      catchError((err) => {
+        // Error logic
         console.error('Failed to add comment', err);
-      }
-    );
+        return of(null); // Return a new observable to complete the stream
+      })
+    ).subscribe();
   }
 
   logout(): void {

@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { PostService } from '../../services/post.service';
+import { of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-comment',
@@ -17,16 +19,18 @@ export class CommentComponent {
   submitReply() {
     if (!this.replyText.trim()) return;
     
-    // FIX: Using the older, multi-argument syntax for .subscribe()
-    this.postService.addReply(this.postId, this.comment._id, this.replyText).subscribe(
-      (updatedPost) => { // Success callback
-        // For now, we reload the page to see the new change.
+    // FIX: Using a more robust .pipe() pattern for the subscription
+    this.postService.addReply(this.postId, this.comment._id, this.replyText).pipe(
+      tap(() => {
+        // Success logic: reload the page to see the new reply
         window.location.reload();
-      },
-      (err) => { // Error callback
+      }),
+      catchError((err) => {
+        // Error logic
         console.error('Failed to add reply', err);
-      }
-    );
+        return of(null); // Return a new observable to complete the stream
+      })
+    ).subscribe();
 
     this.replyText = '';
     this.showReplyForm = false;
