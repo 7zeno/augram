@@ -1,11 +1,11 @@
-const express = require('express'); // FIX: Changed 'onst' to 'const'
+const express = require('express');
 const router = express.Router();
 const {
   createPost,
   getAllPosts,
   likePost,
   commentOnPost,
-  replyToComment // New function import
+  replyToComment
 } = require('../controllers/postsController');
 const authMiddleware = require('../middleware/authMiddleware');
 
