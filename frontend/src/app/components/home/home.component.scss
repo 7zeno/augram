@@ -94,7 +94,6 @@
   font-size: 0.9rem;
 }
 
-// New styles for the Floating Action Button (FAB)
 .fab {
   position: fixed;
   bottom: 2rem;
@@ -108,7 +107,7 @@
   align-items: center;
   justify-content: center;
   font-size: 2.5rem;
-  line-height: 60px; /* Vertically center the '+' */
+  line-height: 60px;
   text-decoration: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   z-index: 1000;
@@ -117,5 +116,35 @@
   &:hover {
     transform: scale(1.05);
     background-color: #0056b3;
+  }
+}
+
+.comments-section {
+  padding: 1rem;
+  border-top: 1px solid #efefef;
+}
+
+.comment-form {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  input {
+    flex-grow: 1;
+    border: 1px solid #dbdbdb;
+    border-radius: 15px 0 0 15px;
+    padding: 8px 12px;
+    border-right: none;
+    &:focus {
+      outline: none;
+    }
+  }
+  button {
+    border: 1px solid #dbdbdb;
+    background-color: #fafafa;
+    border-radius: 0 15px 15px 0;
+    cursor: pointer;
+    padding: 0 12px;
+    font-weight: 600;
+    color: #007bff;
   }
 }

@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 })
 export class HomeComponent implements OnInit {
   posts$!: Observable<Post[]>;
-  currentUser$!: Observable<User | null>; // To hold the current user's data
+  currentUser$!: Observable<User | null>;
 
   constructor(
     private authService: AuthService,
@@ -21,7 +21,16 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.posts$ = this.postService.getPosts();
-    this.currentUser$ = this.authService.getCurrentUser(); // Get user data from AuthService
+    this.currentUser$ = this.authService.getCurrentUser();
+  }
+
+  addComment(postId: string, text: string) {
+    if (!text.trim()) return;
+    this.postService.addComment(postId, text).subscribe(() => {
+      // For now, we reload to see the new comment.
+      // A better approach would be state management (e.g., NgRx, Akita).
+      this.posts$ = this.postService.getPosts();
+    });
   }
 
   logout(): void {

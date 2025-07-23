@@ -1,7 +1,7 @@
 <div class="home-container">
-  <header class="home-header">
+  <header class="home-header" *ngIf="currentUser$ | async as user">
     <h1>AUgram</h1>
-    <div class="header-user-controls" *ngIf="currentUser$ | async as user">
+    <div class="header-user-controls">
       <span class="current-username">{{ user.username }}</span>
       <button (click)="logout()" class="btn btn-logout">Logout</button>
     </div>
@@ -26,6 +26,21 @@
           <div>
             <span>{{ post.likes.length }} Likes</span>
             <span>{{ post.comments.length }} Comments</span>
+          </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="comments-section">
+          <h4>Comments</h4>
+          <!-- Form for new top-level comments -->
+          <form (ngSubmit)="addComment(post._id, newComment.value); newComment.value=''" class="comment-form">
+            <input #newComment type="text" placeholder="Add a comment...">
+            <button type="submit">Post</button>
+          </form>
+
+          <!-- Display existing comments using the new component -->
+          <div *ngFor="let comment of post.comments">
+            <app-comment [comment]="comment" [postId]="post._id"></app-comment>
           </div>
         </div>
       </div>
