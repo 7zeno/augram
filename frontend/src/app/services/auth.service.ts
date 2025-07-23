@@ -16,7 +16,6 @@ export class AuthService {
   private user$ = new BehaviorSubject<User | null>(null);
 
   constructor(private http: HttpClient, private router: Router) {
-    // ** THE FIX IS HERE **
     // If a token exists on app startup, immediately try to fetch the user's profile.
     if (this.hasToken()) {
       this.getUserProfile().subscribe();
@@ -26,14 +25,14 @@ export class AuthService {
   // --- Core API Calls ---
 
   register(userData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/auth/register`, userData).pipe(
-      tap((res: any) => this.setSession(res.token))
+    return this.http.post<any>(`${this.apiUrl}/auth/register`, userData).pipe(
+      tap(res => this.handleAuthSuccess(res.token))
     );
   }
 
   login(credentials: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/auth/login`, credentials).pipe(
-      tap((res: any) => this.setSession(res.token))
+    return this.http.post<any>(`${this.apiUrl}/auth/login`, credentials).pipe(
+      tap(res => this.handleAuthSuccess(res.token))
     );
   }
 
@@ -51,10 +50,16 @@ export class AuthService {
 
   // --- Session Management ---
 
-  private setSession(token: string): void {
+  /**
+   * This private method now handles the entire post-authentication flow,
+   * including saving the token, fetching the user profile, and navigating.
+   * This is the FIX for the navigation issue.
+   */
+  private handleAuthSuccess(token: string): void {
     localStorage.setItem('auth_token', token);
     this.authStatusListener.next(true);
-    this.getUserProfile().subscribe(); // Fetch user profile after login/register
+    this.getUserProfile().subscribe(); // Fetch user profile
+    this.router.navigate(['/']);      // Navigate to the homepage
   }
 
   logout(): void {
