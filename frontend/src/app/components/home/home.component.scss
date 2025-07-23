@@ -18,9 +18,6 @@
     margin: 0;
   }
 
-  .btn {
-    margin-left: 1rem;
-  }
   .btn-secondary {
     background-color: #efefef;
     color: #333;
@@ -80,4 +77,30 @@
   justify-content: space-between;
   color: #8e8e8e;
   font-size: 0.9rem;
+}
+
+// New styles for the Floating Action Button (FAB)
+.fab {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  line-height: 60px; /* Vertically center the '+' */
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: transform 0.2s ease-in-out, background-color 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+    background-color: #0056b3;
+  }
 }

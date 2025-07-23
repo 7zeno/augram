@@ -1,10 +1,7 @@
 <div class="home-container">
   <header class="home-header">
     <h1>AUgram</h1>
-    <div>
-      <a routerLink="/create-post" class="btn btn-primary">Create Post</a>
-      <button (click)="logout()" class="btn btn-secondary">Logout</button>
-    </div>
+    <button (click)="logout()" class="btn btn-secondary">Logout</button>
   </header>
 
   <main class="feed">
@@ -34,4 +31,7 @@
       <p>Loading posts...</p>
     </ng-template>
   </main>
+
+  <!-- Floating Action Button for Create Post -->
+  <a routerLink="/create-post" class="fab" title="Create Post">+</a>
 </div>

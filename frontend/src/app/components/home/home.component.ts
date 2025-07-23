@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  posts$!: Observable<Post[]>; // Fix: Added '!' for definite assignment
+  posts$!: Observable<Post[]>;
 
   constructor(
     private authService: AuthService,
