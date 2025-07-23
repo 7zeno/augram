@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms'; // Import FormsModule
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,7 +9,8 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
-import { CreatePostComponent } from './components/create-post/create-post.component'; // Import new component
+import { CreatePostComponent } from './components/create-post/create-post.component';
+import { CommentComponent } from './components/comment/comment.component'; // Import new component
 
 import { AuthInterceptor } from './auth/auth.interceptor';
 
@@ -19,13 +20,15 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    CreatePostComponent // Declare new component
+    CreatePostComponent,
+    CommentComponent // Declare new component
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule // Add FormsModule here
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
