@@ -1,50 +1,51 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Define the Post Schema
-const PostSchema = new Schema({
-  // The author of the post, linked to the User model
-  author: {
+// We define the Comment schema separately to allow for recursion
+const CommentSchema = new Schema({
+  user: {
     type: Schema.Types.ObjectId,
-    ref: 'User', // Creates a reference to a User document
+    ref: 'User',
     required: true
   },
-  // The text content of the post
+  text: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  // This is the key change: replies will be an array of Comment schemas
+  replies: [this] 
+});
+
+
+// Define the Post Schema
+const PostSchema = new Schema({
+  author: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
   textContent: {
     type: String,
     required: [true, 'Post text content is required'],
     trim: true,
     maxlength: 2000
   },
-  // Optional URL for an image associated with the post
   imageUrl: {
     type: String,
     default: ''
   },
-  // An array of User IDs who have liked the post
   likes: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
   }],
-  // An array of comment objects
-  comments: [{
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: true
-    },
-    text: {
-      type: String,
-      required: true,
-      trim: true
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now
-    }
-  }]
+  // The comments array will now use the new CommentSchema
+  comments: [CommentSchema]
 }, {
-  // Automatically add 'createdAt' and 'updatedAt' fields
   timestamps: true
 });
 

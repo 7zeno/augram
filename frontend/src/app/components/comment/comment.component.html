@@ -1,0 +1,23 @@
+<div class="comment-container">
+  <div class="comment-header">
+    <img 
+      [src]="comment.user?.profilePicture || 'https://placehold.co/32x32/EFEFEF/AAAAAA?text=A'" 
+      class="avatar" 
+      alt="User avatar">
+    <span class="author-name">{{ comment.user?.username }}</span>
+  </div>
+  <div class="comment-body">
+    <p>{{ comment.text }}</p>
+    <button class="reply-button" (click)="showReplyForm = !showReplyForm">Reply</button>
+    
+    <form *ngIf="showReplyForm" (ngSubmit)="submitReply()" class="reply-form">
+      <textarea [(ngModel)]="replyText" name="replyText" placeholder="Write a reply..."></textarea>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <div class="replies-section" *ngIf="comment.replies && comment.replies.length > 0">
+    <!-- Recursive call to the component for nested replies -->
+    <app-comment *ngFor="let reply of comment.replies" [comment]="reply" [postId]="postId"></app-comment>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+.comment-container {
+  margin-left: 20px;
+  padding-left: 15px;
+  border-left: 2px solid #efefef;
+  margin-top: 10px;
+}
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+  }
+  .author-name {
+    font-weight: 600;
+  }
+}
+.comment-body {
+  p { margin: 5px 0; }
+  .reply-button {
+    background: none;
+    border: none;
+    color: #8e8e8e;
+    cursor: pointer;
+    padding: 0;
+    font-size: 0.8rem;
+  }
+}
+.reply-form {
+  margin-top: 10px;
+  textarea {
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #dbdbdb;
+    padding: 5px;
+  }
+  button {
+    margin-top: 5px;
+  }
+}
+.replies-section {
+  margin-top: 10px;
+}
