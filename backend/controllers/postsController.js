@@ -5,7 +5,36 @@ const User = require('../models/User');
 
 // --- Comment on a post ---
 exports.commentOnPost = async (req, res) => {
-    // ... (this function remains the same)
+    const { text } = req.body;
+    if (!text) {
+        return res.status(400).json({ msg: 'Comment text is required' });
+    }
+
+    try {
+        const post = await Post.findById(req.params.id);
+
+        if (!post) {
+            return res.status(404).json({ msg: 'Post not found' });
+        }
+
+        const newComment = {
+            user: req.user.id,
+            text: text,
+            replies: []
+        };
+
+        post.comments.unshift(newComment); // Add to the beginning of the array
+
+        await post.save();
+        
+        const populatedPost = await Post.findById(req.params.id)
+            .populate('comments.user', ['username', 'profilePicture']);
+
+        res.json(populatedPost.comments);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
 };
 
 

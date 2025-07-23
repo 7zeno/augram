@@ -1,4 +1,4 @@
-onst express = require('express');
+const express = require('express'); // FIX: Changed 'onst' to 'const'
 const router = express.Router();
 const {
   createPost,
@@ -9,7 +9,20 @@ const {
 } = require('../controllers/postsController');
 const authMiddleware = require('../middleware/authMiddleware');
 
-// ... (other routes remain the same) ...
+// @route   POST api/posts
+// @desc    Create a new post
+// @access  Private
+router.post('/', authMiddleware, createPost);
+
+// @route   GET api/posts
+// @desc    Get all posts for the homepage feed
+// @access  Private
+router.get('/', authMiddleware, getAllPosts);
+
+// @route   PUT api/posts/like/:id
+// @desc    Like or unlike a post
+// @access  Private
+router.put('/like/:id', authMiddleware, likePost);
 
 // @route   POST api/posts/comment/:id
 // @desc    Add a comment to a post
