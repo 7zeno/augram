@@ -17,14 +17,19 @@ export class CommentComponent {
 
   submitReply() {
     if (!this.replyText.trim()) return;
-    this.postService.addReply(this.postId, this.comment._id, this.replyText).subscribe({
-      next: (updatedPost) => {
+    
+    // FIX: Using the multi-argument syntax for .subscribe()
+    this.postService.addReply(this.postId, this.comment._id, this.replyText).subscribe(
+      (updatedPost) => { // next callback
         // Ideally, you would update the specific post in a state management service
         // For now, we can just reload the page to see the change.
         window.location.reload();
       },
-      error: (err) => console.error('Failed to add reply', err)
-    });
+      (err) => { // error callback
+        console.error('Failed to add reply', err);
+      }
+    );
+
     this.replyText = '';
     this.showReplyForm = false;
   }
