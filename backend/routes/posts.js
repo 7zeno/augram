@@ -1,0 +1,32 @@
+const express = require('express');
+const router = express.Router();
+const {
+  createPost,
+  getAllPosts,
+  likePost,
+  commentOnPost
+} = require('../controllers/postsController');
+const authMiddleware = require('../middleware/authMiddleware');
+
+// @route   POST api/posts
+// @desc    Create a new post
+// @access  Private
+router.post('/', authMiddleware, createPost);
+
+// @route   GET api/posts
+// @desc    Get all posts for the homepage feed
+// @access  Private
+router.get('/', authMiddleware, getAllPosts);
+
+// @route   PUT api/posts/like/:id
+// @desc    Like or unlike a post
+// @access  Private
+router.put('/like/:id', authMiddleware, likePost);
+
+// @route   POST api/posts/comment/:id
+// @desc    Add a comment to a post
+// @access  Private
+router.post('/comment/:id', authMiddleware, commentOnPost);
+
+module.exports = router;
+
