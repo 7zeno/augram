@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { PostService } from '../../services/post.service';
+import { Post } from '../../models/post.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -7,11 +10,15 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  posts$: Observable<Post[]>;
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private postService: PostService
+  ) { }
 
   ngOnInit(): void {
-    // Logic to fetch posts would go here
+    this.posts$ = this.postService.getPosts();
   }
 
   logout(): void {

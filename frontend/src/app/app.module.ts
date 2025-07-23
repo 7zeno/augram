@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
-// Import other components as you create them
+import { CreatePostComponent } from './components/create-post/create-post.component'; // Import new component
 
 import { AuthInterceptor } from './auth/auth.interceptor';
 
@@ -18,17 +18,16 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    HomeComponent
-    // Add other components here
+    HomeComponent,
+    CreatePostComponent // Declare new component
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule, // Important for making API calls
-    ReactiveFormsModule // Important for building forms
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [
-    // Register the AuthInterceptor
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

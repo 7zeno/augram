@@ -1,5 +1,37 @@
-<div>
-  <h1>Welcome to AUgram!</h1>
-  <p>This is the home page. Posts will be displayed here.</p>
-  <button (click)="logout()" class="btn">Logout</button>
+<div class="home-container">
+  <header class="home-header">
+    <h1>AUgram</h1>
+    <div>
+      <a routerLink="/create-post" class="btn btn-primary">Create Post</a>
+      <button (click)="logout()" class="btn btn-secondary">Logout</button>
+    </div>
+  </header>
+
+  <main class="feed">
+    <div *ngIf="posts$ | async as posts; else loading">
+      <div *ngFor="let post of posts" class="post-card">
+        <div class="post-header">
+          <img 
+            [src]="post.author.profilePicture || 'https://placehold.co/40x40/EFEFEF/AAAAAA?text=A'" 
+            class="avatar" 
+            alt="Author avatar">
+          <span class="author-name">{{ post.author.username }}</span>
+        </div>
+        <div class="post-content">
+          <p>{{ post.textContent }}</p>
+          <img *ngIf="post.imageUrl" [src]="post.imageUrl" class="post-image" alt="Post image">
+        </div>
+        <div class="post-footer">
+          <span>{{ post.createdAt | date:'medium' }}</span>
+          <div>
+            <span>{{ post.likes.length }} Likes</span>
+            <span>{{ post.comments.length }} Comments</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-template #loading>
+      <p>Loading posts...</p>
+    </ng-template>
+  </main>
 </div>
