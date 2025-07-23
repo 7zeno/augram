@@ -11,7 +11,7 @@ import { User } from '../models/user.model'; // We will create this model interf
 })
 export class AuthService {
   // IMPORTANT: Replace with your deployed Render URL in production
-  private apiUrl = 'http://localhost:5000/api'; // Use your Codespace URL for testing
+  private apiUrl = 'https://augram-backend.onrender.com/api'; // Use your Codespace URL for testing
 
   private authStatusListener = new BehaviorSubject<boolean>(this.hasToken());
   private user$ = new BehaviorSubject<User | null>(null);
