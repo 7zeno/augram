@@ -27,13 +27,14 @@ export class HomeComponent implements OnInit {
   addComment(postId: string, text: string) {
     if (!text.trim()) return;
     
+    // FIX: Using the older, multi-argument syntax for .subscribe()
     this.postService.addComment(postId, text).subscribe(
-      () => { // next callback
+      () => { // Success callback
         // For now, we reload to see the new comment.
         // A better approach would be state management (e.g., NgRx, Akita).
         this.posts$ = this.postService.getPosts();
       },
-      (err) => { // error callback
+      (err) => { // Error callback
         console.error('Failed to add comment', err);
       }
     );
