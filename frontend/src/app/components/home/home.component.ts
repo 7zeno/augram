@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { PostService } from '../../services/post.service';
 import { Post } from '../../models/post.model';
+import { User } from '../../models/user.model';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -11,6 +12,7 @@ import { Observable } from 'rxjs';
 })
 export class HomeComponent implements OnInit {
   posts$!: Observable<Post[]>;
+  currentUser$!: Observable<User | null>; // To hold the current user's data
 
   constructor(
     private authService: AuthService,
@@ -19,6 +21,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.posts$ = this.postService.getPosts();
+    this.currentUser$ = this.authService.getCurrentUser(); // Get user data from AuthService
   }
 
   logout(): void {

@@ -1,7 +1,10 @@
 <div class="home-container">
   <header class="home-header">
     <h1>AUgram</h1>
-    <button (click)="logout()" class="btn btn-secondary">Logout</button>
+    <div class="header-user-controls" *ngIf="currentUser$ | async as user">
+      <span class="current-username">{{ user.username }}</span>
+      <button (click)="logout()" class="btn btn-logout">Logout</button>
+    </div>
   </header>
 
   <main class="feed">
